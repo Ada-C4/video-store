@@ -1,27 +1,53 @@
 package com.video.store;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+@Entity
 public class Movie {
 
-    private final long id;
-    private String title;
-    private String overview;
-    private String releaseDate;
+	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
+    private long id;
+    private String title, overview, releaseDate;
     private int inventory;
+    
+    protected Movie() {}
 
-    public Movie(long id, String content, String overview, String releaseDate, int inventory) {
-        this.id = id;
+    public Movie(String title, String overview, String releaseDate, int inventory) {
         this.title = title;
         this.overview = overview;
         this.releaseDate = releaseDate;
         this.inventory = inventory;
+    }
+    
+    @Override
+    public String toString() {
+        return String.format(
+                "Movie[id=%d, title='%s', inventory='%s']",
+                id, title, inventory);
     }
 
     public long getId() {
         return id;
     }
 
-    public String getContent() {
+    public String getTitle() {
         return title;
+    }
+    
+    public String getOverview() {
+    	return overview;
+    }
+    
+    public String getReleaseDate() {
+    	return releaseDate;
+    }
+    
+    public int getInventory() {
+    	return inventory;
     }
 
 }
