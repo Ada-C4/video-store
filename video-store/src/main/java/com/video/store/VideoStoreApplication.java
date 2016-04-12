@@ -23,8 +23,9 @@ public class VideoStoreApplication {
 			// save a couple of movies
 			repository.save(new Movie("The Little Mermaid", "It's about a mermaid.", "04/03/2015", 7));
 			repository.save(new Movie("Pan's Labyrinth", "Scary!", "01/16/1984", 3));
+			repository.save(new Movie("WAT watwatwat", "WAT!", "12/12/2012", 3));
 
-			// fetch all customers
+			// fetch all movies
 			log.info("Movies found with findAll():");
 			log.info("-------------------------------");
 			for (Movie movie : repository.findAll()) {
@@ -39,7 +40,7 @@ public class VideoStoreApplication {
 			log.info(movie.toString());
             log.info("");
 
-			// fetch customers by title
+			// fetch movies by title
 			log.info("Movie found with findByTitle('The Little Mermaid'):");
 			log.info("--------------------------------------------");
 			for (Movie littleMermaid : repository.findByTitle("The Little Mermaid")) {
