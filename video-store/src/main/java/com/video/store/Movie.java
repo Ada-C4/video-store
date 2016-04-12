@@ -4,6 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 
 @Entity
 public class Movie {
@@ -11,12 +12,14 @@ public class Movie {
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
     private long id;
-    private String title, overview, releaseDate;
-    private int inventory;
+    private String title, releaseDate;
+    @Lob
+    private String overview;
+    private Long inventory;
     
     protected Movie() {}
 
-    public Movie(String title, String overview, String releaseDate, int inventory) {
+    public Movie(String title, String overview, String releaseDate, Long inventory) {
         this.title = title;
         this.overview = overview;
         this.releaseDate = releaseDate;
@@ -46,7 +49,7 @@ public class Movie {
     	return releaseDate;
     }
     
-    public int getInventory() {
+    public Long getInventory() {
     	return inventory;
     }
 

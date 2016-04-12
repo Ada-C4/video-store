@@ -8,6 +8,13 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
+import org.json.simple.JSONObject;
+import org.json.simple.JSONArray;
+import org.json.simple.parser.JSONParser;
+
+import java.io.FileReader;
+import java.util.Iterator;
+
 @SpringBootApplication
 public class VideoStoreApplication {
 	
@@ -17,36 +24,36 @@ public class VideoStoreApplication {
 		SpringApplication.run(VideoStoreApplication.class, args);
 	}
 	
+	public static void seedMovies(String path, MovieRepository repository) {
+		JSONParser parser = new JSONParser();
+		
+		try {
+			 
+            Object obj = parser.parse(new FileReader(path));
+ 
+            JSONArray jsonArray = (JSONArray) obj;
+ 
+            for (int i = 0; i < jsonArray.size(); i++) {
+            	JSONObject jsonObject = (JSONObject) jsonArray.get(i);
+            	
+            	String title = (String) jsonObject.get("title");
+                String overview = (String) jsonObject.get("overview");
+                String releaseDate = (String) jsonObject.get("release_date");
+                Long inventory = (Long) jsonObject.get("inventory");
+                
+                repository.save(new Movie(title, overview, releaseDate, inventory));
+            }
+ 
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+	}
+	
 	@Bean
-	public CommandLineRunner demo(MovieRepository repository) {
+	public CommandLineRunner seeder(MovieRepository repository) {
+		
 		return (args) -> {
-			// save a couple of movies
-			repository.save(new Movie("The Little Mermaid", "It's about a mermaid.", "04/03/2015", 7));
-			repository.save(new Movie("Pan's Labyrinth", "Scary!", "01/16/1984", 3));
-			repository.save(new Movie("WAT watwatwat", "WAT!", "12/12/2012", 3));
-
-			// fetch all movies
-			log.info("Movies found with findAll():");
-			log.info("-------------------------------");
-			for (Movie movie : repository.findAll()) {
-				log.info(movie.toString());
-			}
-            log.info("");
-
-			// fetch a single movie by ID
-			Movie movie = repository.findOne(2L);
-			log.info("Movie found with findOne(2L):");
-			log.info("--------------------------------");
-			log.info(movie.toString());
-            log.info("");
-
-			// fetch movies by title
-			log.info("Movie found with findByTitle('The Little Mermaid'):");
-			log.info("--------------------------------------------");
-			for (Movie littleMermaid : repository.findByTitle("The Little Mermaid")) {
-				log.info(littleMermaid.toString());
-			}
-            log.info("");
+			seedMovies("src/main/resources/movies.json", repository);
 		};
 	}
 }
