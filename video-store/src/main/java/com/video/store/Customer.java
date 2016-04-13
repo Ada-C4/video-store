@@ -12,11 +12,11 @@ public class Customer {
 	@GeneratedValue(strategy=GenerationType.AUTO)
     private long id;
     private String name, registeredAt, address, city, state, postalCode, phone;
-    private Float accountCredit;
+    private double accountCredit;
     
     protected Customer() {}
 
-    public Customer(String name, String registeredAt, String address, String city, String state, String postalCode, String phone, Float accountCredit) {
+    public Customer(String name, String registeredAt, String address, String city, String state, String postalCode, String phone) {
         this.name = name;
         this.registeredAt = registeredAt;
         this.address = address;
@@ -24,7 +24,6 @@ public class Customer {
         this.state = state;
         this.postalCode = postalCode;
         this.phone = phone;
-        this.accountCredit = accountCredit;
     }
     
     @Override
@@ -32,6 +31,10 @@ public class Customer {
         return String.format(
                 "Customer[id=%d, name='%s', accountCredit='%s']",
                 id, name, accountCredit);
+    }
+    
+    public void setAccountCredit(double credit) {
+    	this.accountCredit = credit; 
     }
 
     public String getName() {
@@ -62,8 +65,8 @@ public class Customer {
     	return phone;
     }
     
-    public Float getAccountCredit() {
+    public double getAccountCredit() {
     	return accountCredit;
     }
-
+    
 }
